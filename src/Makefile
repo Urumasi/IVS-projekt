@@ -6,17 +6,29 @@
 
 .phony: all pack clean test doc run profile
 
+LOGINS=xfilip46_xknesl02_xnorek01_xsalab00
+ZIP_FILE = $(LOGINS).zip
+
+.DEFAULT_GOAL := all
+
 all:
 
 test:
+	@python -m 
 
-pack:
+pack: $(ZIP_FILE)
+$(ZIP_FILE): plan src dokumentace.pdf skutecnost.txt hodnoceni.txt
+	zip -r $@ $^
 
 clean:
+	@rm -r __pycache__
+	
 
 doc:
+	pydoc -w ../src
 
 run:
+	@python -m main
 
 profile:
 
@@ -38,3 +50,4 @@ help:
 	for profiling."
 	@echo "make help"
 	@echo "    Print out this help."
+	@echo $(PYTHON)
