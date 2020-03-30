@@ -109,7 +109,7 @@ class CalculatorWindow(QtWidgets.QMainWindow, Ui_Calculator):
         button = self.sender()
         if "=" not in self.line_subresult.text():
             self.line_subresult.setText(self.line_subresult.text() + " " + self.line_result.text() + " " + button.text())
-            self.line_result.setText("výsledek")
+            self.line_result.setText("result")
 
     def basic_ops_pressed(self):
         button = self.sender()
