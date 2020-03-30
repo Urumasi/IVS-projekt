@@ -634,5 +634,5 @@ class Ui_Calculator(object):
         self.buttonb.setProperty("class", _translate("Calculator", "darkbutton"))
         self.buttona.setText(_translate("Calculator", "..."))
         self.buttona.setProperty("class", _translate("Calculator", "darkbutton"))
-        self.label_style.setText(_translate("Calculator", "Standard"))
+        self.label_style.setText(_translate("Calculator", "Scientific"))
 
