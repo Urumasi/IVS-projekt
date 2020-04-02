@@ -5,7 +5,6 @@ from ui_calculator import Ui_Calculator
 
 class CalculatorWindow(QtWidgets.QMainWindow, Ui_Calculator):
     key_pressed = QtCore.pyqtSignal(QtCore.QEvent)
-    EQUALS = "="
     def __init__(self):
         super().__init__()
         self.setupUi(self)
@@ -84,7 +83,7 @@ class CalculatorWindow(QtWidgets.QMainWindow, Ui_Calculator):
             self.label_style.setText("Scientific")
 
     def is_result_set(self):
-        return (self.EQUALS in self.line_subresult.text())
+        return ("=" in self.line_subresult.text())
 
     def clear_result(self):
         self.line_result.setText("0")
