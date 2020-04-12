@@ -25,15 +25,15 @@ class MathLibTests(TestCase):
 	def test_add_both(self):
 		self.assertEqual(self.math.add(-1, 2), 1)
 		self.assertEqual(self.math.add(1, -2), -1)
-		self.assertEqual(self.math.add(-23, 56), -79)
+		self.assertEqual(self.math.add(-23, 56), 33)
 		self.assertEqual(self.math.add(20, -20), 0)
 		self.assertEqual(self.math.add(-1, 1), 0)
 
 	def test_add_float(self):
-		self.assertEqual(self.math.add(-1.5, -3.5), -5)
-		self.assertEqual(self.math.add(5.3, 10.4), 15.7)
-		self.assertEqual(self.math.add(5.4, -5.3), 0.1)
-		self.assertEqual(self.math.add(-1.3, 3.3), 2)
+		self.assertAlmostEqual(self.math.add(-1.5, -3.5), -5, 1)
+		self.assertAlmostEqual(self.math.add(5.3, 10.4), 15.7, 1)
+		self.assertAlmostEqual(self.math.add(5.4, -5.3), 0.1, 1)
+		self.assertAlmostEqual(self.math.add(-1.3, 3.3), 2, 1)
 
 	# Tests for sub function
 	def test_sub_positive(self):
@@ -60,7 +60,7 @@ class MathLibTests(TestCase):
 
 	def test_sub_float(self):
 		self.assertEqual(self.math.subtract(5.5, 3.3), 2.2)
-		self.assertEqual(self.math.subtract(-7.4, -2.4), 5)
+		self.assertEqual(self.math.subtract(-7.4, -2.4), -5)
 		self.assertEqual(self.math.subtract(10.5, -2.4), 12.9)
 		self.assertEqual(self.math.subtract(-5.2, 10), -15.2)
 
@@ -86,10 +86,10 @@ class MathLibTests(TestCase):
 		self.assertEqual(self.math.multiply(2, -12), -24)
 
 	def test_multiply_float(self):
-		self.assertEqual(self.math.multiply(3.3, 2.2), 7.26)
-		self.assertEqual(self.math.multiply(-6.2, -2.1), 13.02)
-		self.assertEqual(self.math.multiply(-3.2, 2.2), -7.26)
-		self.assertEqual(self.math.multiply(6.2, -2.1), -13.02)
+		self.assertAlmostEqual(self.math.multiply(3.3, 2.2), 7.26, 2)
+		self.assertAlmostEqual(self.math.multiply(-6.2, -2.1), 13.02, 2)
+		self.assertAlmostEqual(self.math.multiply(-3.3, 2.2), -7.26, 2)
+		self.assertAlmostEqual(self.math.multiply(6.2, -2.1), -13.02, 2)
 
 	# Tests for divide function
 	def test_divide_positive(self):
@@ -105,16 +105,16 @@ class MathLibTests(TestCase):
 		self.assertEqual(self.math.divide(-55, -11), 5)
 
 	def test_divide_both(self):
-		self.assertEqual(self.math.divide(-10, 2), -5)
-		self.assertEqual(self.math.divide(10, -2), 5)
-		self.assertEqual(self.math.divide(-55, 2), -27.5)
-		self.assertEqual(self.math.divide(55, -11), -5)
+		self.assertAlmostEqual(self.math.divide(-10, 2), -5, 1)
+		self.assertAlmostEqual(self.math.divide(10, -2), -5, 1)
+		self.assertAlmostEqual(self.math.divide(-55, 2), -27.5, 1)
+		self.assertAlmostEqual(self.math.divide(55, -11), -5, 1)
 
 	def test_divide_float(self):
-		self.assertEqual(self.math.divide(5.5, 1.1), 5)
-		self.assertEqual(self.math.divide(-3.2, -0.5), 7)
-		self.assertEqual(self.math.divide(10.3, -2), -5.15)
-		self.assertEqual(self.math.divide(-10, 2.5), -4)
+		self.assertAlmostEqual(self.math.divide(5.5, 1.1), 5, 1)
+		self.assertAlmostEqual(self.math.divide(-3.2, -0.5), 6.4, 1)
+		self.assertAlmostEqual(self.math.divide(10.3, -2), -5.15, 2)
+		self.assertAlmostEqual(self.math.divide(-10, 2.5), -4, 1)
 
 	def test_divide_zero(self):
 		with self.assertRaises(ValueError):
@@ -126,6 +126,7 @@ class MathLibTests(TestCase):
 		self.assertEqual(self.math.power(2, 2), 4)
 		self.assertEqual(self.math.power(-5, 2), 25)
 		self.assertEqual(self.math.power(2.5, 2), 6.25)
+		self.assertEqual(self.math.power(0, 0), 1)
 
 	def test_power_odd(self):
 		self.assertEqual(self.math.power(1, 3), 1)
@@ -179,10 +180,10 @@ class MathLibTests(TestCase):
 
 	# Tests for exp function
 	def test_exp(self):
-		self.assertAlmostEqual(self.math.exp(1), 2.7182, 8)
-		self.assertAlmostEqual(self.math.exp(2), 7.3890, 8)
-		self.assertAlmostEqual(self.math.exp(-2), 0.1353, 8)
-		self.assertAlmostEqual(self.math.exp(1.5), 4.4816, 8)
+		self.assertAlmostEqual(self.math.exp(1), 2.7183, 4)
+		self.assertAlmostEqual(self.math.exp(2), 7.3891, 4)
+		self.assertAlmostEqual(self.math.exp(-2), 0.1353, 4)
+		self.assertAlmostEqual(self.math.exp(1.5), 4.4817, 4)
 
 	# Tests for natural_log function
 	def test_natural_log(self):
@@ -198,8 +199,8 @@ class MathLibTests(TestCase):
 
 	# Tests for log function
 	def test_log(self):
-		self.assertEqual(self.math.log(1), 0)
-		self.assertEqual(self.math.log(100), 2)
+		self.assertAlmostEqual(self.math.log(1), 0, 1)
+		self.assertAlmostEqual(self.math.log(100), 2, 1)
 		self.assertAlmostEqual(self.math.log(2), 0.3010, 4)
 
 	def test_negative_log(self):
