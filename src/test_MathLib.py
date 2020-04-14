@@ -126,7 +126,9 @@ class MathLibTests(TestCase):
 		self.assertEqual(self.math.power(2, 2), 4)
 		self.assertEqual(self.math.power(-5, 2), 25)
 		self.assertEqual(self.math.power(2.5, 2), 6.25)
-		self.assertEqual(self.math.power(0, 0), 1)
+
+		with self.assertRaises(ValueError):
+			self.math.power(0, 0)
 
 	def test_power_odd(self):
 		self.assertEqual(self.math.power(1, 3), 1)
