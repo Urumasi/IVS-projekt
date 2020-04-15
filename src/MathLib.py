@@ -80,6 +80,15 @@ class MathLib:
 		return value
 
 	@staticmethod
+	def abs(x):
+		"""
+		Get the absolute value of x
+		:param x: Input number
+		:return: |x|
+		"""
+		return x if x > 0 else -x
+
+	@staticmethod
 	def add(a, b):
 		"""
 		Adds two numbers
@@ -179,7 +188,22 @@ class MathLib:
 		:param x: Input in radians
 		:return: tan(x)
 		"""
-		return MathLib.divide(MathLib.sin(x), MathLib.cos(x))
+		cos_x = MathLib.cos(x)
+		if MathLib.abs(cos_x) < MathLib.EPS:
+			raise ValueError
+		return MathLib.divide(MathLib.sin(x), cos_x)
+
+	@staticmethod
+	def cot(x):
+		"""
+		Take the cotangent function of x
+		:param x: Input in radians
+		:return: cot(x)
+		"""
+		sin_x = MathLib.sin(x)
+		if MathLib.abs(sin_x) < MathLib.EPS:
+			raise ValueError
+		return MathLib.divide(MathLib.cos(x), sin_x)
 
 	@staticmethod
 	@taylor
