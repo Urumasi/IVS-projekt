@@ -16,11 +16,10 @@ class CalculatorWindow(QtWidgets.QMainWindow, Ui_Calculator):
         #operation buttons
         self.connect_buttons(self.buttons_update, self.button_equals, self.button_plus, 
                             self.button_minus, self.button_multiply, self.button_divide, 
-                            self.button_log, self.button_ln,self.button_sin, self.button_cos, 
-                            self.button_tan, self.button_factorial, self.button_negation, 
-                            self.button_divide_by_x, self.button_lbracket, self.button_rbracket, 
-                            self.button_sqr, self.button_pow, self.button_exp, self.button_sqrt, 
-                            self.button_root)
+                            self.button_log, self.button_ln, self.button_sin, self.button_cos, 
+                            self.button_tan, self.button_cot, self.button_factorial, self.button_negation, 
+                            self.button_divide_by_x, self.button_random, self.button_sqr, 
+                            self.button_pow, self.button_exp, self.button_sqrt, self.button_root)
         #change style button
         self.connect_buttons(self.change_style, self.button_change)
         #digits
@@ -37,7 +36,7 @@ class CalculatorWindow(QtWidgets.QMainWindow, Ui_Calculator):
                             self.button_multiply, self.button_divide)
         #advanced operations (log, ln, sin, cos, tan)
         self.connect_buttons(self.advanced_ops_pressed, self.button_log, self.button_ln,
-                            self.button_sin, self.button_cos, self.button_tan)
+                            self.button_sin, self.button_cos, self.button_tan, self.button_cot)
         #advamced operations
         self.connect_buttons(self.factorial_pressed, self.button_factorial)
         self.connect_buttons(self.negation_pressed, self.button_negation)
@@ -45,8 +44,8 @@ class CalculatorWindow(QtWidgets.QMainWindow, Ui_Calculator):
         self.connect_buttons(self.pow_pressed, self.button_sqr, self.button_pow)
         self.connect_buttons(self.exp_pressed, self.button_exp)
         self.connect_buttons(self.root_pressed, self.button_sqrt, self.button_root)
-        #brackets
-        self.connect_buttons(self.brackets_pressed, self.button_lbracket, self.button_rbracket)
+        #random
+        self.connect_buttons(self.random_pressed, self.button_random)
         #clear buttons
         self.connect_buttons(self.clear_result, self.button_ce)
         self.connect_buttons(self.clear_all, self.button_c)
@@ -107,14 +106,14 @@ class CalculatorWindow(QtWidgets.QMainWindow, Ui_Calculator):
 
     def change_style(self):
         if self.label_style.text() == "Scientific":
-            self.hide_buttons(self.button_factorial, self.button_lbracket, self.button_rbracket, 
-                            self.button_root, self.button_pow, self.button_exp, self.button_log, 
-                            self.button_ln, self.button_sin, self.button_cos, self.button_tan)
+            self.hide_buttons(self.button_factorial, self.button_random, self.button_root, 
+                            self.button_pow, self.button_exp, self.button_log, self.button_ln, 
+                            self.button_sin, self.button_cos, self.button_tan, self.button_cot)
             self.label_style.setText("Standard")
         else:
-            self.show_buttons(self.button_factorial, self.button_lbracket, self.button_rbracket, 
-                            self.button_root, self.button_pow, self.button_exp, self.button_log, 
-                            self.button_ln, self.button_sin, self.button_cos, self.button_tan)
+            self.show_buttons(self.button_factorial, self.button_random, self.button_root, 
+                            self.button_pow, self.button_exp, self.button_log, self.button_ln, 
+                            self.button_sin, self.button_cos, self.button_tan, self.button_cot)
             self.label_style.setText("Scientific")
 
     #checks if result is set
@@ -202,7 +201,7 @@ class CalculatorWindow(QtWidgets.QMainWindow, Ui_Calculator):
     def root_pressed(self):
         print("TODO")
     
-    #brackets    
-    def brackets_pressed(self):
+    #random number
+    def random_pressed(self):
         print("TODO")
 
