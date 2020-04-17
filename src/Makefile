@@ -9,6 +9,7 @@ SHELL:=/bin/bash -O extglob  # need extglob for copying into subdirectory
 .DEFAULT_GOAL := all  # set default goal to all
 LOGINS = xfilip46_xknesl02_xnorek01_xsalab00
 ZIP_FILE = $(LOGINS).zip
+TEST_FILES = test_mathlib
 DOCGEN = pydoc
 DOCFLAGS = -w
 DOC_DIR = doc
@@ -22,9 +23,10 @@ run:
 	@python -m main
 
 test:
-	@python -m 
+	@python -m unittest $(TEST_FILES)
 
 doc:
+	@cd .. && mkdir -p doc
 	@$(DOCGEN) $(DOCFLAGS) ../src
 	@mv *.html ../doc/
 	@echo 'Documentation building finished. HTML files are in "doc/".'

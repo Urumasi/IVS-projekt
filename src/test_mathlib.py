@@ -1,7 +1,7 @@
 import unittest
 from unittest import TestCase
 
-from MathLib import MathLib
+from mathlib import MathLib
 
 
 class MathLibTests(TestCase):
