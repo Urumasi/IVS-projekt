@@ -12,6 +12,8 @@ __package__ = "calcchamp"
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from .ui_calculator import Ui_Calculator
+from PyQt5.QtWidgets import QApplication
+from random import randint
 
 class CalculatorWindow(QtWidgets.QMainWindow, Ui_Calculator):
     key_pressed = QtCore.pyqtSignal(QtCore.QEvent)
@@ -51,7 +53,8 @@ class CalculatorWindow(QtWidgets.QMainWindow, Ui_Calculator):
         self.connect_buttons(self.factorial_pressed, self.button_factorial)
         self.connect_buttons(self.negation_pressed, self.button_negation)
         self.connect_buttons(self.divide_by_x_pressed, self.button_divide_by_x)
-        self.connect_buttons(self.pow_pressed, self.button_sqr, self.button_pow)
+        self.connect_buttons(self.pow_pressed, self.button_pow)
+        self.connect_buttons(self.sqr_pressed, self.button_sqr)
         self.connect_buttons(self.exp_pressed, self.button_exp)
         self.connect_buttons(self.root_pressed, self.button_sqrt, self.button_root)
         # random
@@ -204,7 +207,7 @@ class CalculatorWindow(QtWidgets.QMainWindow, Ui_Calculator):
         button = self.sender()
         if self.is_result_set():
             self.clear_all()
-        if self.is_result_zero():
+        if self.is_number_zero():
             self.line_result.setText("")
         self.line_result.setText(self.line_result.text() + button.text())
 
@@ -240,29 +243,33 @@ class CalculatorWindow(QtWidgets.QMainWindow, Ui_Calculator):
         self.line_result.setText(button.text() + "(" + self.line_result.text() + ")")
 
     def factorial_pressed(self):
-        """Set the result text for factorial function."""
-        print("TODO")
+        button = self.sender()
+        self.line_result.setText(button.text() + "(" + self.line_result.text() + ")")
 
     def negation_pressed(self):
-        """Set the result text for negation button."""
-        print("TODO")
+        string = self.line_result.text()
+        number = int(string)
+        number = number * -1
+        string = str(number)
+        self.line_result.setText(string)
 
     def divide_by_x_pressed(self):
-        """Set the result text for division by x button."""
-        print("TODO")
+        self.line_result.setText("1" + "/" + self.line_result.text())
+
+    def sqr_pressed(self):
+        self.line_result.setText(self.line_result.text() + "^" + "2")
 
     def pow_pressed(self):
-        """Set the result text for power button."""
-        print("TODO")
+        self.line_result.setText(self.line_result.text() + "^" + "3")
 
     def exp_pressed(self):
-        """Set the result text for exponent button."""
-        print("TODO")
+        self.line_result.setText("e" + "^" + self.line_result.text())
 
     def root_pressed(self):
-        """Set the result text for root button."""
-        print("TODO")
+        self.line_result.setText("√" + self.line_result.text())
 
+    #random number
     def random_pressed(self):
-        """Set the result text for getting random number between 0-1000."""
-        print("TODO")
+        button = randint(0, 1000)
+        string = str(button)
+        self.line_result.setText(string)
