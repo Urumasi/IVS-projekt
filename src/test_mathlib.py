@@ -1,3 +1,12 @@
+"""Module for defining unit tests for our mathematical library.
+
+Can be run by using 'make test' in the source directory.
+"""
+
+# File: test_mathlib.py
+# Author: Okaychamps, Karel Norek (xnorek01), FIT BUT
+# Date: 2020-Apr-22
+
 import unittest
 from unittest import TestCase
 
