@@ -1,10 +1,33 @@
+"""Mathematical library module serves for defining mathematical functions.
+
+Uses taylor decorator for functions that need Taylor series.
+Mathlib module is used in our calculator to compute pressed numbers.
+"""
+
+# File: mathlib.py
+# Author: Okaychamps, Petr Salaba (xsalab00), FIT BUT
+# Date: 2020-Apr-22
+
 def taylor(fn):
-	"""
-	Decorator for creating Taylor series, waits until the last 3 terms are below EPS
-	or until max number of iterations is reached
+	"""	Decorator for creating Taylor series, waits until the last 3 terms
+	are below EPS or until max number of iterations is reached.
+
+	Args:
+		fn (function): Decorated function.
+
+	Returns:
+		wrapper: Wrapper.
 	"""
 
 	def wrapper(x):
+		"""Wrapper function.
+
+		Args:
+			x (float): Input number.
+
+		Returns:
+			float: Result of called function.
+		"""
 		last_3 = list()
 		result = 0
 		for i in range(MathLib.MAX_ITERATIONS):
@@ -23,10 +46,17 @@ def taylor(fn):
 
 
 def taylor_mod(fn, lower_bound, upper_bound):
-	"""
-	Decorator for creating a Taylor series with modulo, useful for periodic functions
-	:param lower_bound: Lower bound of the modulo window
-	:param upper_bound: Upper bound of the modulo window, must be greater than lower_bound
+	"""Decorator for creating a Taylor series with modulo,
+	useful for periodic functions.
+
+	Args:
+		fn (function): Decorated function.
+		lower_bound (int): Lower bound of the modulo window.
+		upper_bound (int): Upper bound of the modulo window,
+						   must be greater than lower_bound.
+
+	Returns:
+		wrapper: Wrapper.
 	"""
 
 	def wrapper(x):
@@ -43,9 +73,12 @@ def taylor_mod(fn, lower_bound, upper_bound):
 
 
 def taylor_mod_pi(fn):
-	"""
-	Decorator for creating a Taylor series with modulo (-PI, PI), useful for trigonometric functions
-	This exists since you must pass constants to decorators
+	"""Decorator for creating a Taylor series with modulo (-PI, PI), useful for
+	trigonometric functions.
+	This exists since you must pass constants to decorators.
+
+	Args:
+		fn (function): Decorated function.
 	"""
 
 	def wrapper(x):
@@ -67,10 +100,16 @@ class MathLib:
 	# Used for Taylor series
 	@staticmethod
 	def _fact(n):
-		"""
-		Get the factorial of n
-		:param n: Input number
-		:return: n!
+		"""Get the factorial of a number.
+
+		Args:
+			n (int): Input number.
+
+		Raises:
+			ValueError: Number is not an integer.
+
+		Returns:
+			int: n!
 		"""
 		if not isinstance(n, int) or n < 0:
 			raise ValueError
@@ -81,51 +120,68 @@ class MathLib:
 
 	@staticmethod
 	def abs(x):
-		"""
-		Get the absolute value of x
-		:param x: Input number
-		:return: |x|
+		r"""Get the absolute value of a number.
+
+		Args:
+			x (float): Input number.
+
+		Returns:
+			float: Absolute value of x, \|x\|.
 		"""
 		return x if x > 0 else -x
 
 	@staticmethod
 	def add(a, b):
-		"""
-		Adds two numbers
-		:param a: First number
-		:param b: Second number
-		:return: a+b
+		"""Adds two numbers,
+
+		Args:
+			a (float): First number,
+			b (float): Second number,
+
+		Returns:
+			float: a + b.
 		"""
 		return a + b
 
 	@staticmethod
 	def subtract(a, b):
-		"""
-		Subtracts one number from another number
-		:param a: Number to subtract from
-		:param b: Number to subtract
-		:return: a-b
+		"""Substracts one number from another number.
+
+		Args:
+			a (float): Number to subtract from.
+			b (float): Number to subtract.
+
+		Returns:
+			float: a - b.
 		"""
 		return a - b
 
 	@staticmethod
 	def multiply(a, b):
-		"""
-		Multiplies two numbers
-		:param a: First number
-		:param b: Second number
-		:return: a*b
+		"""Multiplies two numbers.
+
+		Args:
+			a (float): First number.
+			b (float): Second number.
+
+		Returns:
+			float: a * b.
 		"""
 		return a * b
 
 	@staticmethod
 	def divide(a, b):
-		"""
-		Divides one number by another number
-		:param a: Numerator
-		:param b: Denominator
-		:return: a/b
-		:raises: ValueError if denominator is 0
+		"""Divides one number by another number.
+
+		Args:
+			a (float): Numerator.
+			b (float): Denominator
+
+		Raises:
+			ValueError: Denominator is 0, division by zero.
+
+		Returns:
+			float: a / b.
 		"""
 		if b == 0:
 			raise ValueError
@@ -133,11 +189,18 @@ class MathLib:
 
 	@staticmethod
 	def power(base, exponent):
-		"""
-		Raises a number to a power based on the exponent
-		:param base: Number to raise to a power
-		:param exponent: Natural number (int), which power to raise the base to
-		:return: base ^ exponent
+		"""Raises a number to a power based on the exponent.
+
+		Args:
+			base (float): Number to raise to a power.
+			exponent (int): Natural number, which power to raise the base to.
+
+		Raises:
+			ValueError: Exponent is not an integer.
+			ValueError: Both base and exponent are zeros.
+
+		Returns:
+			float: base ^ exponent.
 		"""
 		if not isinstance(exponent, int):
 			raise ValueError
@@ -147,11 +210,20 @@ class MathLib:
 
 	@staticmethod
 	def root(x, n):
-		"""
-		Takes the n-th root of a number
-		:param x: Number to take n-th root of
-		:param n: Order of the root
-		:return: n√x
+		"""Takes the n-th root of a number.
+
+		Args:
+			x (float): Number to take n-th root of.
+			n (n): Order of the root.
+
+		Raises:
+			ValueError: Order of the root equals zero.
+			ValueError: Order of the root is not an integer.
+			ValueError: Even Root of a negative number.
+						Result is in complex numbers.
+
+		Returns:
+			float: n√x.
 		"""
 		if n == 0:
 			raise ValueError
@@ -164,29 +236,43 @@ class MathLib:
 	@staticmethod
 	@taylor_mod_pi
 	def sin(x, i):
-		"""
-		Take the sine function of x
-		:param x: Input in radians
-		:return: sin(x)
+		"""Take the sine function of a number.
+
+		Args:
+			x (float): Input in radians.
+			i (int): Index of a member in the Taylor's series. TODO: remove?
+
+		Returns:
+			float: sin(x).
 		"""
 		return MathLib.power(-1, i) * MathLib.power(x, 2 * i + 1) / MathLib._fact(2 * i + 1)
 
 	@staticmethod
 	@taylor
 	def cos(x, i):
-		"""
-		Take the cosine function of x
-		:param x: Input in radians
-		:return: cos(x)
+		"""Take the cosine function of a number.
+
+		Args:
+			x (float): Input in radians.
+			i (int): Index of a member in the Taylor's series. TODO: remove?
+
+		Returns:
+			float: cos(x).
 		"""
 		return MathLib.power(-1, i) * MathLib.power(x, 2 * i) / MathLib._fact(2 * i)
 
 	@staticmethod
 	def tan(x):
-		"""
-		Take the tangent function of x
-		:param x: Input in radians
-		:return: tan(x)
+		"""Take the tangent function of a number.
+
+		Args:
+			x (float): Input in radians.
+
+		Raises:
+			ValueError: Input number is zero.
+
+		Returns:
+			float: tan(x).
 		"""
 		cos_x = MathLib.cos(x)
 		if MathLib.abs(cos_x) < MathLib.EPS:
@@ -195,10 +281,16 @@ class MathLib:
 
 	@staticmethod
 	def cot(x):
-		"""
-		Take the cotangent function of x
-		:param x: Input in radians
-		:return: cot(x)
+		"""Take the cotangent function of x.
+
+		Args:
+			x (float): Input in radians.
+
+		Raises:
+			ValueError: Input number is zero.
+
+		Returns:
+			float: cot(x).
 		"""
 		sin_x = MathLib.sin(x)
 		if MathLib.abs(sin_x) < MathLib.EPS:
@@ -208,20 +300,31 @@ class MathLib:
 	@staticmethod
 	@taylor
 	def exp(x, i):
-		"""
-		Take the exponential function of x
-		:param x: Input number
-		:return: e^x
+		"""The exponential function of a number.
+
+		Args:
+			x (float): Input number.
+			i (int): Index of a member in the Taylor's series. TODO: remove?
+
+		Returns:
+			float: e ^ x.
 		"""
 		return MathLib.divide(MathLib.power(x, i), MathLib._fact(i))
 
 	@staticmethod
 	@taylor
 	def natural_log(x, i):
-		"""
-		Take the natural logarithm of x
-		:param x: Input number
-		:return: ln(x)
+		"""Take the natural logarithm of a number.
+
+		Args:
+			x (float): Input number.
+			i (int): Index of a member in the Taylor's series. TODO: remove?
+
+		Raises:
+			ValueError: Input number is less than zero.
+
+		Returns:
+			float: ln(x).
 		"""
 		if x <= 0:
 			raise ValueError
@@ -229,9 +332,12 @@ class MathLib:
 
 	@staticmethod
 	def log(x):
-		"""
-		Take the base 10 logarithm of x
-		:param x: Input number
-		:return: log10(x)
+		"""Take the base 10 logarithm of a number.
+
+		Args:
+			x (float): Input number.
+
+		Returns:
+			float: log10(x).
 		"""
 		return MathLib.natural_log(x) / MathLib.LN10
