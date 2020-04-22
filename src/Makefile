@@ -1,8 +1,8 @@
-# @file Makefile
-# @author Okaychamps, Marek Filip (xfilip46), FIT BUT
-# @date 29/Mar/2020
-# @brief IVS-project2-calculator
-# @details Makefile for the calculator. Tries to use general makefile rules.
+# File: Makefile
+# Author: Okaychamps, Marek Filip (xfilip46), FIT BUT
+# Date: 2020-Apr-22
+# Brief: IVS-project2-calculator
+# Details: Makefile for the calculator. Tries to use general makefile rules.
 #		   I encourage all contributors to adjust the makefile to their liking.
 
 SHELL:=/bin/bash -O extglob  # need extglob for copying into subdirectory
@@ -12,7 +12,9 @@ ZIP_FILE = $(LOGINS).zip
 TEST_FILES = test_mathlib
 DOCGEN = pydoc
 DOCFLAGS = -w
-DOC_DIR = doc
+SOURCE_DOC_DIR = doc-source
+OUTPUT_DOC_DIR = ../doc
+DOC_FORMAT     = html
 
 .phony: all run test doc profile pack clean help
 
@@ -26,10 +28,7 @@ test:
 	@python -m unittest $(TEST_FILES)
 
 doc:
-	@cd .. && mkdir -p doc
-	@$(DOCGEN) $(DOCFLAGS) ../src
-	@mv *.html ../doc/
-	@echo 'Documentation building finished. HTML files are in "doc/".'
+	@sphinx-build -b $(DOC_FORMAT) $(SOURCE_DOC_DIR) $(OUTPUT_DOC_DIR)
 
 profile:
 	# TODO: profiling
@@ -42,10 +41,12 @@ $(ZIP_FILE):
 	echo $(CURDIR)
 
 # remove all the .pyc, .pyo files and pycache dir from curr dir
-clean: 
+# remove doc folder
+clean:
 	@find . -name '*.pyc' -exec rm -f {} +
 	@find . -name '*.pyo' -exec rm -f {} +
-	@rm -rf __pycache__
+	@rm -rf __pycache__ $(OUTPUT_DOC_DIR)
+	@echo Deleted all nonessential files.
 
 help:
 	@echo "make all"
