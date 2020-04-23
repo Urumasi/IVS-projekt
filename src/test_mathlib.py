@@ -4,7 +4,7 @@ Can be run by using 'make test' in the source directory.
 """
 
 # File: test_mathlib.py
-# Author: Okaychamps, Karel Norek (xnorek01), FIT BUT
+# Author: OkayChamps, Karel Norek (xnorek01), FIT BUT
 # Date: 2020-Apr-22
 
 import unittest
