@@ -5,7 +5,7 @@ Mathlib module is used in our calculator to compute pressed numbers.
 """
 
 # File: mathlib.py
-# Author: Okaychamps, Petr Salaba (xsalab00), FIT BUT
+# Author: OkayChamps, Petr Salaba (xsalab00), FIT BUT
 # Date: 2020-Apr-22
 
 def taylor(fn):

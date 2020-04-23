@@ -1,5 +1,5 @@
 # File: Makefile
-# Author: Okaychamps, Marek Filip (xfilip46), FIT BUT
+# Author: OkayChamps, Marek Filip (xfilip46), FIT BUT
 # Date: 2020-Apr-22
 # Brief: IVS-project2-calculator
 # Details: Makefile for the calculator. Tries to use general makefile rules.
@@ -12,6 +12,7 @@ ZIP_FILE = $(LOGINS).zip
 TEST_FILES = test_mathlib
 DOCGEN = pydoc
 DOCFLAGS = -w
+INSTALLER_DIR  = ../installer
 SOURCE_DOC_DIR = doc-source
 OUTPUT_DOC_DIR = ../doc
 DOC_FORMAT     = html
@@ -46,6 +47,9 @@ clean:
 	@find . -name '*.pyc' -exec rm -f {} +
 	@find . -name '*.pyo' -exec rm -f {} +
 	@rm -rf __pycache__ $(OUTPUT_DOC_DIR)
+	@rm -rf $(INSTALLER_DIR)/!(source)
+	@rm -rf $(INSTALLER_DIR)/source/!(debian|setup.py)
+	@rm -rf $(INSTALLER_DIR)/source/debian/!(control|rules|compat|changelog)
 	@echo Deleted all nonessential files.
 
 help:
@@ -66,3 +70,14 @@ help:
 	@echo "    Delete files that are not essential."
 	@echo "make help"
 	@echo "    Print out this help."
+
+movescripts:
+	@cd $(INSTALLER_DIR)/source && mkdir -p calcchamp
+	@cp -r main.py __init__.py mathlib.py calculator.py ui_calculator.py \
+		img/ $(INSTALLER_DIR)/source/calcchamp
+
+zipinstaller: movescripts
+	@zip -r ../installer.zip ../installer
+
+installer: movescripts
+	@cd $(INSTALLER_DIR)/source && debuild -d

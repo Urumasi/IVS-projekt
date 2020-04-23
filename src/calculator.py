@@ -5,11 +5,11 @@ accordingly. This modules also solves the expression in result text.
 """
 
 # File: calculator.py
-# Author: Okaychamps, Martin Kneslík (xknesl00), Karel Norek (xnorek01) FIT BUT
+# Author: OkayChamps, Martin Kneslík (xknesl00), Karel Norek (xnorek01) FIT BUT
 # Date: 2020-Apr-22
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from ui_calculator import Ui_Calculator
+from .ui_calculator import Ui_Calculator
 
 class CalculatorWindow(QtWidgets.QMainWindow, Ui_Calculator):
     key_pressed = QtCore.pyqtSignal(QtCore.QEvent)
