@@ -21,7 +21,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>../img/OkayChamp.png</normaloff>../img/OkayChamp.png</iconset>
+    <normaloff>img/OkayChamp.png</normaloff>img/OkayChamp.png</iconset>
   </property>
   <property name="styleSheet">
    <string notr="true"/>
@@ -44,18 +44,18 @@ QPushButton
 
 QPushButton.lightbutton
 {
-	background-color: rgb(47, 49, 54);	
+	background-color: rgb(47, 49, 54);
 }
 
 QPushButton.darkbutton
 {
-	
+
 	background-color: rgb(32, 34, 37);
 }
 
 QPushButton.resultbutton
 {
-	
+
 	background-color: rgb(84, 89, 99);
 }
 
@@ -66,7 +66,7 @@ QPushButton::hover
 
 QPushButton::pressed
 {
-	
+
 	background-color: rgb(94, 114, 179);
 }
 
@@ -78,7 +78,7 @@ QPushButton.hamburger::hover
 
 QPushButton.hamburger::pressed
 {
-	
+
 	color: rgb(94, 114, 179);
 }</string>
    </property>

@@ -14,7 +14,7 @@ class Ui_Calculator(object):
         Calculator.resize(352, 468)
         Calculator.setMinimumSize(QtCore.QSize(352, 468))
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("../img/OkayChamp.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("img/OkayChamp.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Calculator.setWindowIcon(icon)
         Calculator.setStyleSheet("")
         self.centralwidget = QtWidgets.QWidget(Calculator)
@@ -610,4 +610,3 @@ class Ui_Calculator(object):
         self.button_factorial.setProperty("class", _translate("Calculator", "darkbutton"))
         self.button_random.setText(_translate("Calculator", "🎲"))
         self.button_random.setProperty("class", _translate("Calculator", "darkbutton"))
-
