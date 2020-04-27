@@ -9,6 +9,7 @@ SHELL:=/bin/bash -O extglob  # need extglob for copying into subdirectory
 .DEFAULT_GOAL := all  # set default goal to all
 LOGINS = xfilip46_xknesl02_xnorek01_xsalab00
 ZIP_FILE = $(LOGINS).zip
+python = python3
 TEST_FILES = test_mathlib
 DOCGEN = pydoc
 DOCFLAGS = -w
@@ -23,10 +24,10 @@ all:
 	# TODO: profiling
 
 run:
-	@python -m main
+	@$(python) -m main
 
 test:
-	@python -m unittest $(TEST_FILES)
+	@$(python) -m unittest $(TEST_FILES)
 
 doc:
 	@sphinx-build -b $(DOC_FORMAT) $(SOURCE_DOC_DIR) $(OUTPUT_DOC_DIR)
@@ -48,6 +49,7 @@ clean:
 	@find . -name '*.pyo' -exec rm -f {} +
 	@rm -rf __pycache__ $(OUTPUT_DOC_DIR)
 	@rm -rf $(INSTALLER_DIR)/!(source)
+	@rm -rf $(INSTALLER_DIR)/source/.pybuild
 	@rm -rf $(INSTALLER_DIR)/source/!(debian|setup.py)
 	@rm -rf $(INSTALLER_DIR)/source/debian/!(control|rules|compat|changelog)
 	@echo Deleted all nonessential files.
@@ -76,6 +78,7 @@ movescripts:
 	@cp -r main.py __init__.py mathlib.py calculator.py ui_calculator.py \
 		img/ $(INSTALLER_DIR)/source/calcchamp
 
+# TODO: remove
 zipinstaller: movescripts
 	@zip -r ../installer.zip ../installer
 
