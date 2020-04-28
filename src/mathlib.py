@@ -197,14 +197,11 @@ class MathLib:
 
 		Raises:
 			ValueError: Exponent is not an integer.
-			ValueError: Both base and exponent are zeros.
 
 		Returns:
 			float: base ^ exponent.
 		"""
 		if not isinstance(exponent, int):
-			raise ValueError
-		if base == 0 and exponent == 0:
 			raise ValueError
 		return base ** exponent
 
