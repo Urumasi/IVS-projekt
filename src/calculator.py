@@ -8,6 +8,8 @@ accordingly. This modules also solves the expression in result text.
 # Author: OkayChamps, Martin Kneslík (xknesl00), Karel Norek (xnorek01) FIT BUT
 # Date: 2020-Apr-22
 
+__package__ = "calcchamp"
+
 from PyQt5 import QtCore, QtGui, QtWidgets
 from .ui_calculator import Ui_Calculator
 

@@ -4,10 +4,9 @@ Priority: optional
 Maintainer: OkayChamps <wecros@gmail.com>
 Build-Depends: debhelper (>=11~),
 	dh-python,
-	python3,
 	python3-all,
 	python3-setuptools,
-	python3-pyqt5
+	devscripts,
 Standards-Version: 4.1.4
 Homepage: <https://github.com/Urumasi/IVS-projekt>
 X-Python-Version: >= 3.2
@@ -17,7 +16,7 @@ Architecture: any
 Section: education
 Priority: optional
 Multi-Arch: foreign
-Depends: python3, ${misc:Depends}, ${python3:Depends}
+Depends: python3, python3-pyqt5, ${misc:Depends}, ${python3:Depends}
 Description: Calculator application for champs that are okay.
  This calculator was built by blood and sweat amidst
  great coronavirus crisis of 2020. As of writing this text we are not

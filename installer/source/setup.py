@@ -29,7 +29,7 @@ setup(
 
     packages=[package_name],
     entry_points={
-        'console_scripts': ["{name} = {name}.main:main".format(name=package_name)],
+        'console_scripts': [f'{package_name} = {package_name}.main:main'],
     },
     data_files=[
         ('share/pixmaps', ['data/OkayChamp.png']),
@@ -37,5 +37,4 @@ setup(
     ],
 
     python_requires='>3.0',
-    # install_requires='PyQt5', # needed or not? doesn't really work properly.
 )
