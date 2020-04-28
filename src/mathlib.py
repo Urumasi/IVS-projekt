@@ -51,9 +51,9 @@ def taylor_mod(fn, lower_bound, upper_bound):
 
 	Args:
 		fn (function): Decorated function.
-		lower_bound (int): Lower bound of the modulo window.
-		upper_bound (int): Upper bound of the modulo window,
-						   must be greater than lower_bound.
+		lower_bound (float): Lower bound of the modulo window.
+		upper_bound (float): Upper bound of the modulo window,
+							 must be greater than lower_bound.
 
 	Returns:
 		wrapper: Wrapper.
