@@ -245,7 +245,7 @@ class MathLib:
 		return MathLib.power(-1, i) * MathLib.power(x, 2 * i + 1) / MathLib._fact(2 * i + 1)
 
 	@staticmethod
-	@taylor
+	@taylor_mod_pi
 	def cos(x, i):
 		"""Take the cosine function of a number.
 
