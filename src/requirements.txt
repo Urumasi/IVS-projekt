@@ -1,0 +1,7 @@
+# File: requirements.txt, python depended packages
+# Author: OkayChamps, BUT FIT
+# Date: 2020-Apr-22
+
+PyQt5==5.14
+sphinx
+sphinx_rtd_theme
