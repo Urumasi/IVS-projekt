@@ -14,6 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from .ui_calculator import Ui_Calculator
 from PyQt5.QtWidgets import QApplication
 from random import randint
+from src.mathlib import MathLib
 
 class CalculatorWindow(QtWidgets.QMainWindow, Ui_Calculator):
     key_pressed = QtCore.pyqtSignal(QtCore.QEvent)
@@ -56,8 +57,9 @@ class CalculatorWindow(QtWidgets.QMainWindow, Ui_Calculator):
         self.connect_buttons(self.pow_pressed, self.button_pow)
         self.connect_buttons(self.sqr_pressed, self.button_sqr)
         self.connect_buttons(self.exp_pressed, self.button_exp)
-        self.connect_buttons(self.root_pressed, self.button_sqrt, self.button_root)
-        # random
+        self.connect_buttons(self.root_pressed, self.button_root)
+        self.connect_buttons(self.sqrt_pressed, self.button_sqrt)
+        #random
         self.connect_buttons(self.random_pressed, self.button_random)
         # clear buttons
         self.connect_buttons(self.clear_result, self.button_ce)
@@ -217,16 +219,47 @@ class CalculatorWindow(QtWidgets.QMainWindow, Ui_Calculator):
         if self.is_result_set():
             self.clear_all()
         if button.text() not in self.line_result.text():
-            self.line_result.setText(self.line_result.text() + button.text())
+            self.line_result.setText(self.line_result.text() + ".")
 
     def result_pressed(self):
         """Sets the result text for pressing result button."""
         button = self.sender()
         if not self.is_result_set():
-            self.line_subresult.setText(self.line_subresult.text() + " " + self.line_result.text() + " " + button.text())
-
-            # TODO:
-            self.line_result.setText("result")
+            #self.line_subresult.setText(self.line_subresult.text() + " " + self.line_result.text() + " " + button.text())
+            self.line_subresult.setText(self.line_subresult.text() + " " + self.line_result.text())
+            try:
+                if "+" in self.line_subresult.text():
+                    string = self.line_subresult.text().split(" + ")
+                    result = MathLib.add(float(string[0]), float(string[1]))
+                    self.line_subresult.setText(self.line_subresult.text() + " " + "=")
+                    self.line_result.setText(str(result))
+                elif "-" in self.line_subresult.text():
+                    string = self.line_subresult.text().split(" - ")
+                    result = MathLib.subtract(float(string[0]), float(string[1]))
+                    self.line_subresult.setText(self.line_subresult.text() + " " + "=")
+                    self.line_result.setText(str(result))
+                elif "/" in self.line_subresult.text():
+                    string = self.line_subresult.text().split(" / ")
+                    result = MathLib.divide(float(string[0]), float(string[1]))
+                    self.line_subresult.setText(self.line_subresult.text() + " " + "=")
+                    self.line_result.setText(str(result))
+                elif "*" in self.line_subresult.text():
+                    string = self.line_subresult.text().split(" * ")
+                    result = MathLib.multiply(float(string[0]), float(string[1]))
+                    self.line_subresult.setText(self.line_subresult.text() + " " + "=")
+                    self.line_result.setText(str(result))
+                elif "^" in self.line_subresult.text():
+                    string = self.line_subresult.text().split(" ^ ")
+                    result = MathLib.power(float(string[0]), int(string[1]))
+                    self.line_subresult.setText(self.line_subresult.text() + " " + "=")
+                    self.line_result.setText(str(result))
+                elif "√" in self.line_subresult.text():
+                    string = self.line_subresult.text().split(" √ ")
+                    result = MathLib.root(int(string[1]), int(string[0]))
+                    self.line_subresult.setText(self.line_subresult.text() + " " + "=")
+                    self.line_result.setText(str(result))
+            except ValueError:
+                self.line_result.setText("Math Error")
 
     def basic_ops_pressed(self):
         r"""Set the result text for basic operations buttons (+, -, \*, /)."""
@@ -238,38 +271,93 @@ class CalculatorWindow(QtWidgets.QMainWindow, Ui_Calculator):
             self.line_result.setText("0")
 
     def advanced_ops_pressed(self):
-        """Set the result text for advanced operations (ln, log, sin, cos, tan)."""
-        button = self.sender()
-        self.line_result.setText(button.text() + "(" + self.line_result.text() + ")")
+        button = (self.sender())
+        self.line_subresult.setText(button.text() + "(" + self.line_result.text() + ")" + " " + "=")
+        number = float(self.line_result.text())
+        try:
+            if "ln" in str(button.text()):
+                result = MathLib.natural_log(number)
+                self.line_result.setText(str(result))
+            elif "log" in str(button.text()):
+                result = MathLib.log(number)
+                self.line_result.setText(str(result))
+            elif "sin" in str(button.text()):
+                result = MathLib.sin(number)
+                self.line_result.setText(str(result))
+            elif "cos" in str(button.text()):
+                result = MathLib.cos(number)
+                self.line_result.setText(str(result))
+            elif "tan" in str(button.text()):
+                result = MathLib.tan(number)
+                self.line_result.setText(str(result))
+        except ValueError:
+            self.line_result.setText("Math Error")
 
     def factorial_pressed(self):
-        button = self.sender()
-        self.line_result.setText(button.text() + "(" + self.line_result.text() + ")")
+        self.line_subresult.setText(self.line_result.text() + "!" + " " + "=")
+        try:
+            number = int(self.line_result.text())
+            result = MathLib._fact(number)
+            self.line_result.setText(str(result))
+        except ValueError:
+            self.line_result.setText("Math Error")
 
     def negation_pressed(self):
+        self.line_subresult.setText("Negation of " + self.line_result.text() + " " + "=")
         string = self.line_result.text()
-        number = int(string)
+        number = float(string)
         number = number * -1
         string = str(number)
         self.line_result.setText(string)
 
     def divide_by_x_pressed(self):
-        self.line_result.setText("1" + "/" + self.line_result.text())
+        self.line_subresult.setText("1" + "/" + self.line_result.text() + " " + "=")
+        number = float(self.line_result.text())
+        try:
+            result = MathLib.divide(1, number)
+            self.line_result.setText(str(result))
+        except ValueError:
+            self.line_result.setText("Math Error")
 
     def sqr_pressed(self):
-        self.line_result.setText(self.line_result.text() + "^" + "2")
+        self.line_subresult.setText(self.line_result.text() + "^" + "2" + " " + "=")
+        number = float(self.line_result.text())
+        result = MathLib.power(number, 2)
+        self.line_result.setText(str(result))
 
     def pow_pressed(self):
-        self.line_result.setText(self.line_result.text() + "^" + "3")
+        if self.is_number_zero() and self.line_subresult.text():
+            self.line_subresult.setText(self.line_result.text() + " " + "^")
+        else:
+            self.line_subresult.setText(
+                self.line_subresult.text() + " " + self.line_result.text() + " " + "^")
+            self.line_result.setText("0")
 
     def exp_pressed(self):
-        self.line_result.setText("e" + "^" + self.line_result.text())
+        number = float(self.line_result.text())
+        result = MathLib.exp(number)
+        self.line_result.setText(str(result))
+
+    def sqrt_pressed(self):
+        self.line_subresult.setText("√" + self.line_result.text() + " " + "=")
+        number = float(self.line_result.text())
+        if number <= 0:
+            self.line_result.setText("Math Error")
+        else:
+            result = MathLib.root(number, 2)
+            self.line_result.setText(str(result))
 
     def root_pressed(self):
-        self.line_result.setText("√" + self.line_result.text())
+        if self.is_number_zero() and self.line_subresult.text():
+            self.line_subresult.setText(self.line_result.text() + "√")
+        else:
+            self.line_subresult.setText(
+                self.line_subresult.text() + " " + self.line_result.text() + " " + "√")
+            self.line_result.setText("0")
 
     #random number
     def random_pressed(self):
+        self.line_subresult.setText("RNG (0 - 1000) =")
         button = randint(0, 1000)
         string = str(button)
         self.line_result.setText(string)
