@@ -135,9 +135,7 @@ class MathLibTests(TestCase):
 		self.assertEqual(self.math.power(2, 2), 4)
 		self.assertEqual(self.math.power(-5, 2), 25)
 		self.assertEqual(self.math.power(2.5, 2), 6.25)
-
-		with self.assertRaises(ValueError):
-			self.math.power(0, 0)
+		self.assertEqual(self.math.power(0, 0), 1)
 
 	def test_power_odd(self):
 		self.assertEqual(self.math.power(1, 3), 1)
@@ -219,3 +217,16 @@ class MathLibTests(TestCase):
 			self.math.log(0)
 			self.math.log(-1)
 			self.math.log(-2.5)
+
+	def test_factorial(self):
+		self.assertEqual(self.math.factorial(12), 479001600)
+		self.assertEqual(self.math.factorial(5), 120)
+		self.assertEqual(self.math.factorial(1), 1)
+		self.assertEqual(self.math.factorial(0), 1)
+
+		with self.assertRaises(ValueError):
+			self.math.factorial(-1)
+			self.math.factorial(-100)
+			self.math.factorial(-1.01)
+			self.math.factorial(0.99)
+			self.math.factorial(10.5)
