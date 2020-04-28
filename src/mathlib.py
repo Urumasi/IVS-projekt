@@ -106,12 +106,12 @@ class MathLib:
 			n (int): Input number.
 
 		Raises:
-			ValueError: Number is not an integer.
+			ValueError: Number is not an integer or is lesser than 0.
 
 		Returns:
 			int: n!
 		"""
-		if not isinstance(n, int) or n < 0:
+		if int(n) != n or n < 0:  # Check if n is a whole number
 			raise ValueError
 		value = 1
 		for x in range(1, n + 1):
@@ -201,7 +201,7 @@ class MathLib:
 		Returns:
 			float: base ^ exponent.
 		"""
-		if not isinstance(exponent, int):
+		if int(exponent) != exponent:  # Check if exponent is a whole number
 			raise ValueError
 		return base ** exponent
 
@@ -224,7 +224,7 @@ class MathLib:
 		"""
 		if n == 0:
 			raise ValueError
-		if not isinstance(n, int):
+		if int(n) != n:  # Check if n is a whole number
 			raise ValueError
 		if n % 2 == 0 and x < 0:
 			raise ValueError
