@@ -51,9 +51,9 @@ def taylor_mod(fn, lower_bound, upper_bound):
 
 	Args:
 		fn (function): Decorated function.
-		lower_bound (int): Lower bound of the modulo window.
-		upper_bound (int): Upper bound of the modulo window,
-						   must be greater than lower_bound.
+		lower_bound (float): Lower bound of the modulo window.
+		upper_bound (float): Upper bound of the modulo window,
+							 must be greater than lower_bound.
 
 	Returns:
 		wrapper: Wrapper.
@@ -97,21 +97,20 @@ class MathLib:
 
 	MAX_ITERATIONS = 256
 
-	# Used for Taylor series
 	@staticmethod
-	def _fact(n):
+	def factorial(n):
 		"""Get the factorial of a number.
 
 		Args:
 			n (int): Input number.
 
 		Raises:
-			ValueError: Number is not an integer.
+			ValueError: Number is not an integer or is lesser than 0.
 
 		Returns:
 			int: n!
 		"""
-		if not isinstance(n, int) or n < 0:
+		if int(n) != n or n < 0:  # Check if n is a whole number
 			raise ValueError
 		value = 1
 		for x in range(1, n + 1):
@@ -201,7 +200,7 @@ class MathLib:
 		Returns:
 			float: base ^ exponent.
 		"""
-		if not isinstance(exponent, int):
+		if int(exponent) != exponent:  # Check if exponent is a whole number
 			raise ValueError
 		return base ** exponent
 
@@ -224,7 +223,7 @@ class MathLib:
 		"""
 		if n == 0:
 			raise ValueError
-		if not isinstance(n, int):
+		if int(n) != n:  # Check if n is a whole number
 			raise ValueError
 		if n % 2 == 0 and x < 0:
 			raise ValueError
@@ -242,10 +241,10 @@ class MathLib:
 		Returns:
 			float: sin(x).
 		"""
-		return MathLib.power(-1, i) * MathLib.power(x, 2 * i + 1) / MathLib._fact(2 * i + 1)
+		return MathLib.power(-1, i) * MathLib.power(x, 2 * i + 1) / MathLib.factorial(2 * i + 1)
 
 	@staticmethod
-	@taylor
+	@taylor_mod_pi
 	def cos(x, i):
 		"""Take the cosine function of a number.
 
@@ -256,7 +255,7 @@ class MathLib:
 		Returns:
 			float: cos(x).
 		"""
-		return MathLib.power(-1, i) * MathLib.power(x, 2 * i) / MathLib._fact(2 * i)
+		return MathLib.power(-1, i) * MathLib.power(x, 2 * i) / MathLib.factorial(2 * i)
 
 	@staticmethod
 	def tan(x):
@@ -306,7 +305,7 @@ class MathLib:
 		Returns:
 			float: e ^ x.
 		"""
-		return MathLib.divide(MathLib.power(x, i), MathLib._fact(i))
+		return MathLib.divide(MathLib.power(x, i), MathLib.factorial(i))
 
 	@staticmethod
 	@taylor
