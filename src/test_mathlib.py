@@ -227,3 +227,6 @@ class MathLibTests(TestCase):
 		with self.assertRaises(ValueError):
 			self.math.factorial(-1)
 			self.math.factorial(-100)
+			self.math.factorial(-1.01)
+			self.math.factorial(0.99)
+			self.math.factorial(10.5)
