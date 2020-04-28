@@ -97,9 +97,8 @@ class MathLib:
 
 	MAX_ITERATIONS = 256
 
-	# Used for Taylor series
 	@staticmethod
-	def _fact(n):
+	def factorial(n):
 		"""Get the factorial of a number.
 
 		Args:
@@ -242,7 +241,7 @@ class MathLib:
 		Returns:
 			float: sin(x).
 		"""
-		return MathLib.power(-1, i) * MathLib.power(x, 2 * i + 1) / MathLib._fact(2 * i + 1)
+		return MathLib.power(-1, i) * MathLib.power(x, 2 * i + 1) / MathLib.factorial(2 * i + 1)
 
 	@staticmethod
 	@taylor_mod_pi
@@ -256,7 +255,7 @@ class MathLib:
 		Returns:
 			float: cos(x).
 		"""
-		return MathLib.power(-1, i) * MathLib.power(x, 2 * i) / MathLib._fact(2 * i)
+		return MathLib.power(-1, i) * MathLib.power(x, 2 * i) / MathLib.factorial(2 * i)
 
 	@staticmethod
 	def tan(x):
@@ -306,7 +305,7 @@ class MathLib:
 		Returns:
 			float: e ^ x.
 		"""
-		return MathLib.divide(MathLib.power(x, i), MathLib._fact(i))
+		return MathLib.divide(MathLib.power(x, i), MathLib.factorial(i))
 
 	@staticmethod
 	@taylor
