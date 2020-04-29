@@ -210,13 +210,13 @@ class CalculatorWindow(QtWidgets.QMainWindow, Ui_Calculator):
 
     #digits
     def digit_pressed(self):
-        """Called when digit is pressed. Sets the text adequately."""
-        button = self.sender()
-        if self.is_result_set():
-            self.clear_all()
-        if self.is_number_zero():
-            self.line_result.setText("")
-        self.line_result.setText(self.line_result.text() + button.text())
+        if len(self.line_result.text()) < 15:
+            button = self.sender()
+            if self.is_result_set():
+                self.clear_all()
+            if self.is_number_zero():
+                self.line_result.setText("")
+            self.line_result.setText(self.line_result.text() + button.text())
 
     def decimal_pressed(self):
         """Called when decimal point is pressed."""
@@ -231,25 +231,31 @@ class CalculatorWindow(QtWidgets.QMainWindow, Ui_Calculator):
             result = self.line_subresult.text()
             string = str(result)
             result = string.split()
-            res = float(result[0])
+            try:
+                res = int(result[0])
+            except ValueError:
+                res = float(result[0])
             for x in range(1, len(result), 2):
                 number = result[x + 1]
-                number = float(number)
+                try:
+                    number = int(number)
+                except ValueError:
+                    number = float(number)
                 if "+" in result[x]:
-                    res = MathLib.add(res, number)
+                    res = round(MathLib.add(res, number), 9)
                 if "-" in result[x]:
-                    res = MathLib.subtract(res, number)
+                    res = round(MathLib.subtract(res, number), 9)
                 if "*" in result[x]:
-                    res = MathLib.multiply(res, number)
+                    res = round(MathLib.multiply(res, number), 9)
                 if "/" in result[x]:
-                    res = MathLib.divide(res, number)
+                    res = round(MathLib.divide(res, number), 9)
                 if "^" in result[x]:
                     number = int(number)
-                    res = MathLib.power(res, number)
+                    res = round(MathLib.power(res, number), 9)
                 if "√" in result[x]:
                     number = int(number)
                     res = int(res)
-                    res = MathLib.root(number, res)
+                    res = round(MathLib.root(number, res), 9)
 
             self.line_result.setText(str(res))
             self.line_subresult.setText(self.line_subresult.text() + " " + "=")
@@ -282,19 +288,19 @@ class CalculatorWindow(QtWidgets.QMainWindow, Ui_Calculator):
         number = float(self.line_result.text())
         try:
             if "ln" in str(button.text()):
-                result = MathLib.natural_log(number)
+                result = round(MathLib.natural_log(number), 9)
                 self.line_result.setText(str(result))
             elif "log" in str(button.text()):
-                result = MathLib.log(number)
+                result = round(MathLib.log(number), 9)
                 self.line_result.setText(str(result))
             elif "sin" in str(button.text()):
-                result = MathLib.sin(number)
+                result = round(MathLib.sin(number), 9)
                 self.line_result.setText(str(result))
             elif "cos" in str(button.text()):
-                result = MathLib.cos(number)
+                result = round(MathLib.cos(number), 9)
                 self.line_result.setText(str(result))
             elif "tan" in str(button.text()):
-                result = MathLib.tan(number)
+                result = round(MathLib.tan(number), 9)
                 self.line_result.setText(str(result))
         except ValueError:
             self.line_result.setText("Math Error")
@@ -325,7 +331,7 @@ class CalculatorWindow(QtWidgets.QMainWindow, Ui_Calculator):
         self.line_subresult.setText(self.line_subresult.text() + " " + "1" + "/" + self.line_result.text() + " " + "=")
         number = float(self.line_result.text())
         try:
-            result = MathLib.divide(1, number)
+            result = round(MathLib.divide(1, number), 9)
             self.line_result.setText(str(result))
         except ValueError:
             self.line_result.setText("Math Error")
@@ -335,7 +341,7 @@ class CalculatorWindow(QtWidgets.QMainWindow, Ui_Calculator):
     def sqr_pressed(self):
         self.line_subresult.setText(self.line_result.text() + "^" + "2" + " " + "=")
         number = float(self.line_result.text())
-        result = MathLib.power(number, 2)
+        result = round(MathLib.power(number, 2), 9)
         self.line_result.setText(str(result))
 
     def pow_pressed(self):
@@ -348,14 +354,14 @@ class CalculatorWindow(QtWidgets.QMainWindow, Ui_Calculator):
 
     def exp_pressed(self):
         number = float(self.line_result.text())
-        result = MathLib.exp(number)
+        result = round(MathLib.exp(number), 9)
         self.line_result.setText(str(result))
 
     def sqrt_pressed(self):
         self.line_subresult.setText("√" + self.line_result.text() + " " + "=")
         number = float(self.line_result.text())
         try:
-            result = MathLib.root(number, 2)
+            result = round(MathLib.root(number, 2), 9)
             self.line_result.setText(str(result))
         except ValueError:
             self.line_result.setText("Math Error")
