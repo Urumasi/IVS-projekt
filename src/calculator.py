@@ -380,7 +380,8 @@ class CalculatorWindow(QtWidgets.QMainWindow, Ui_Calculator):
             self.line_result.setText(str(result))
         except ValueError:
             self.line_result.setText("Math Error")
-
+        except OverflowError:
+            self.line_result.setText("Overflow Error")
     def sqrt_pressed(self):
         try:
             try:
