@@ -8,14 +8,11 @@ accordingly. This modules also solves the expression in result text.
 # Author: OkayChamps, Martin Kneslík (xknesl00), Karel Norek (xnorek01) FIT BUT
 # Date: 2020-Apr-22
 
-__package__ = "calcchamp"
-
 from PyQt5 import QtCore, QtGui, QtWidgets
-from .ui_calculator import Ui_Calculator
+from ui_calculator import Ui_Calculator
 from PyQt5.QtWidgets import QApplication
 from random import randint
-__package__ = 'calcchamp'
-from .mathlib import MathLib
+from mathlib import MathLib
 
 class CalculatorWindow(QtWidgets.QMainWindow, Ui_Calculator):
     key_pressed = QtCore.pyqtSignal(QtCore.QEvent)
@@ -174,7 +171,7 @@ class CalculatorWindow(QtWidgets.QMainWindow, Ui_Calculator):
         """
         return "=" in self.line_subresult.text()
 
-    def is_result_zero(self):
+    def is_number_zero(self):
         """Checks if result text is zero, (0 = unset).
 
         Returns:
@@ -193,8 +190,8 @@ class CalculatorWindow(QtWidgets.QMainWindow, Ui_Calculator):
 
     def clear_all(self):
         """Clears both result and subresult."""
-        self.clear_result()
-        self.clear_subresult()
+        self.line_result.setText("0")
+        self.line_subresult.setText("")
 
     def clear_last(self):
         """Deletes last number in result text."""
@@ -301,7 +298,7 @@ class CalculatorWindow(QtWidgets.QMainWindow, Ui_Calculator):
     def basic_ops_pressed(self):
         r"""Set the result text for basic operations buttons (+, -, \*, /)."""
         button = self.sender()
-        if self.is_result_zero() and self.line_subresult.text():
+        if self.is_number_zero() and self.line_subresult.text():
             self.line_subresult.setText(self.line_subresult.text()[:-1] + button.text())
         else:
             self.line_subresult.setText(self.line_subresult.text() + " " + self.line_result.text() + " " + button.text())
