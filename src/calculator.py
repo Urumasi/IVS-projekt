@@ -14,7 +14,8 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from .ui_calculator import Ui_Calculator
 from PyQt5.QtWidgets import QApplication
 from random import randint
-from src.mathlib import MathLib
+__package__ = 'calcchamp'
+from .mathlib import MathLib
 
 class CalculatorWindow(QtWidgets.QMainWindow, Ui_Calculator):
     key_pressed = QtCore.pyqtSignal(QtCore.QEvent)
@@ -249,13 +250,6 @@ class CalculatorWindow(QtWidgets.QMainWindow, Ui_Calculator):
                     res = round(MathLib.multiply(res, number), 9)
                 if "/" in result[x]:
                     res = round(MathLib.divide(res, number), 9)
-                if "^" in result[x]:
-                    number = int(number)
-                    res = round(MathLib.power(res, number), 9)
-                if "√" in result[x]:
-                    number = int(number)
-                    res = int(res)
-                    res = round(MathLib.root(number, res), 9)
 
             self.line_result.setText(str(res))
             self.line_subresult.setText(self.line_subresult.text() + " " + "=")
@@ -267,7 +261,34 @@ class CalculatorWindow(QtWidgets.QMainWindow, Ui_Calculator):
     #calculating result
     def result_pressed(self):
         """Sets the result text for pressing result button."""
-        button = self.sender()
+        if "^" in self.line_result.text():
+            try:
+                string = str(self.line_result.text())
+                string = string.split("^")
+                try:
+                    base = int(string[0])
+                except ValueError:
+                    base = float(string[0])
+                exponent = int(string[1])
+
+                result = round(MathLib.power(base, exponent))
+                self.line_result.setText(str(result))
+
+            except ValueError:
+                self.line_result.setText("Math Error")
+
+        elif "√" in self.line_result.text():
+            try:
+                string = str(self.line_result.text())
+                string = string.split("√")
+                n = int(string[0])
+                base = int(string[1])
+                result = round(MathLib.root(base, n))
+                self.line_result.setText(str(result))
+
+            except ValueError:
+                self.line_result.setText("Math Error")
+
         if not self.is_result_set():
             self.line_subresult.setText(self.line_subresult.text() + " " + self.line_result.text())
             self.calculate_result()
@@ -284,7 +305,6 @@ class CalculatorWindow(QtWidgets.QMainWindow, Ui_Calculator):
 
     def advanced_ops_pressed(self):
         button = (self.sender())
-        self.line_subresult.setText(self.line_subresult.text() + " " + button.text() + "(" + self.line_result.text() + ")" + " " + "=")
         number = float(self.line_result.text())
         try:
             if "ln" in str(button.text()):
@@ -308,7 +328,6 @@ class CalculatorWindow(QtWidgets.QMainWindow, Ui_Calculator):
             self.line_result.setText("Overflow Error")
 
     def factorial_pressed(self):
-        self.line_subresult.setText(self.line_subresult.text() + " " + self.line_result.text() + "!" + " " + "=")
         try:
             number = int(self.line_result.text())
             result = MathLib._fact(number)
@@ -317,7 +336,6 @@ class CalculatorWindow(QtWidgets.QMainWindow, Ui_Calculator):
             self.line_result.setText("Math Error")
 
     def negation_pressed(self):
-        self.line_subresult.setText("Negation of " + self.line_result.text() + " " + "=")
         string = self.line_result.text()
         try:
             number = int(string)
@@ -328,7 +346,6 @@ class CalculatorWindow(QtWidgets.QMainWindow, Ui_Calculator):
         self.line_result.setText(string)
 
     def divide_by_x_pressed(self):
-        self.line_subresult.setText(self.line_subresult.text() + " " + "1" + "/" + self.line_result.text() + " " + "=")
         number = float(self.line_result.text())
         try:
             result = round(MathLib.divide(1, number), 9)
@@ -339,27 +356,26 @@ class CalculatorWindow(QtWidgets.QMainWindow, Ui_Calculator):
             self.line_result.setText("Overflow Error")
 
     def sqr_pressed(self):
-        self.line_subresult.setText(self.line_result.text() + "^" + "2" + " " + "=")
         number = float(self.line_result.text())
         result = round(MathLib.power(number, 2), 9)
         self.line_result.setText(str(result))
 
     def pow_pressed(self):
-        if self.is_number_zero() and self.line_subresult.text():
-            self.line_subresult.setText(self.line_result.text() + " " + "^")
-        else:
-            self.line_subresult.setText(
-                self.line_subresult.text() + " " + self.line_result.text() + " " + "^")
-            self.line_result.setText("0")
+        self.line_result.setText(self.line_result.text() + "^")
 
     def exp_pressed(self):
-        number = float(self.line_result.text())
+        try:
+            number = int(self.line_result.text())
+        except ValueError:
+            number = float(self.line_result.text())
         result = round(MathLib.exp(number), 9)
         self.line_result.setText(str(result))
 
     def sqrt_pressed(self):
-        self.line_subresult.setText("√" + self.line_result.text() + " " + "=")
-        number = float(self.line_result.text())
+        try:
+            number = int(self.line_result.text())
+        except ValueError:
+            number = float(self.line_result.text())
         try:
             result = round(MathLib.root(number, 2), 9)
             self.line_result.setText(str(result))
@@ -369,12 +385,7 @@ class CalculatorWindow(QtWidgets.QMainWindow, Ui_Calculator):
             self.line_result.setText("Overflow Error")
 
     def root_pressed(self):
-        if self.is_number_zero() and self.line_subresult.text():
-            self.line_subresult.setText(self.line_result.text() + "√")
-        else:
-            self.line_subresult.setText(
-                self.line_subresult.text() + " " + self.line_result.text() + " " + "√")
-            self.line_result.setText("0")
+        self.line_result.setText(self.line_result.text() + "√")
 
     #random number
     def random_pressed(self):
