@@ -1,6 +1,6 @@
 # File: Makefile
 # Author: OkayChamps, Marek Filip (xfilip46), FIT BUT
-# Date: 2020-Apr-22
+# Date: 2020-Apr-29
 # Brief: IVS-project2-calculator
 # Details: Makefile for the calculator. Uses general makefile rules.
 #		   I encourage all contributors to adjust the makefile to their liking.

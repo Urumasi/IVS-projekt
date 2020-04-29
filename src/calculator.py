@@ -6,7 +6,7 @@ accordingly. This modules also solves the expression in result text.
 
 # File: calculator.py
 # Author: OkayChamps, Martin Kneslík (xknesl00), Karel Norek (xnorek01) FIT BUT
-# Date: 2020-Apr-22
+# Date: 2020-Apr-29
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from ui_calculator import Ui_Calculator
@@ -203,11 +203,15 @@ class CalculatorWindow(QtWidgets.QMainWindow, Ui_Calculator):
                 self.line_result.setText("0")
 
     def set_result(self, result):
+        """Set the result text"""
         self.line_subresult.setText(self.line_subresult.text() + " " + "=")
         self.line_result.setText(str(result))
 
-    #digits
     def digit_pressed(self):
+        """Sets the result text accordingly when digit pressed.
+
+        Maximal length of line is 15.
+        """
         if len(self.line_result.text()) < 15:
             button = self.sender()
             if self.is_result_set():
@@ -225,6 +229,7 @@ class CalculatorWindow(QtWidgets.QMainWindow, Ui_Calculator):
             self.line_result.setText(self.line_result.text() + ".")
 
     def calculate_result(self):
+        """Calculates the result placed in subresult."""
         try:
             result = self.line_subresult.text()
             string = str(result)
@@ -305,6 +310,7 @@ class CalculatorWindow(QtWidgets.QMainWindow, Ui_Calculator):
             self.line_result.setText("0")
 
     def advanced_ops_pressed(self):
+        """Set the result text for advanced operation."""
         try:
             button = (self.sender())
             number = float(self.line_result.text())
@@ -332,14 +338,16 @@ class CalculatorWindow(QtWidgets.QMainWindow, Ui_Calculator):
             self.line_result.setText("Overflow Error")
 
     def factorial_pressed(self):
+        """Set the result text for factorial."""
         try:
             number = int(self.line_result.text())
-            result = MathLib._fact(number)
+            result = MathLib.factorial(number)
             self.line_result.setText(str(result))
         except ValueError:
             self.line_result.setText("Math Error")
 
     def negation_pressed(self):
+        """Set the result text for negation."""
         string = self.line_result.text()
         try:
             number = int(string)
@@ -350,6 +358,7 @@ class CalculatorWindow(QtWidgets.QMainWindow, Ui_Calculator):
         self.line_result.setText(string)
 
     def divide_by_x_pressed(self):
+        """Set the result text for division by x."""
         try:
             number = float(self.line_result.text())
             result = round(MathLib.divide(1, number), 9)
@@ -360,6 +369,7 @@ class CalculatorWindow(QtWidgets.QMainWindow, Ui_Calculator):
             self.line_result.setText("Overflow Error")
 
     def sqr_pressed(self):
+        """Set the result text for square root."""
         try:
             number = float(self.line_result.text())
             result = round(MathLib.power(number, 2), 9)
@@ -368,9 +378,11 @@ class CalculatorWindow(QtWidgets.QMainWindow, Ui_Calculator):
             self.line_result.setText("Math Error")
 
     def pow_pressed(self):
+        """Set the result text for power."""
         self.line_result.setText(self.line_result.text() + "^")
 
     def exp_pressed(self):
+        """Set the result text for exp."""
         try:
             try:
                 number = int(self.line_result.text())
@@ -383,6 +395,7 @@ class CalculatorWindow(QtWidgets.QMainWindow, Ui_Calculator):
         except OverflowError:
             self.line_result.setText("Overflow Error")
     def sqrt_pressed(self):
+        """Set the result text for square root."""
         try:
             try:
                 number = int(self.line_result.text())
@@ -396,10 +409,12 @@ class CalculatorWindow(QtWidgets.QMainWindow, Ui_Calculator):
             self.line_result.setText("Overflow Error")
 
     def root_pressed(self):
+        """Set the result text for n-th root."""
         self.line_result.setText(self.line_result.text() + "√")
 
     #random number
     def random_pressed(self):
+        """Set the result text random dice press."""
         button = randint(0, 1000)
         string = str(button)
         self.line_result.setText(string)
