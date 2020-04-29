@@ -42,7 +42,10 @@ doc:
 builddoc:
 	$(DOCGEN) $(DOCFLAGS) $(DOC_FORMAT) $(SOURCE_DOC_DIR) $(OUTPUT_DOC_DIR)
 
-profile: profiling.py mathlib.py
+stddev: stddev.py mathlib.py
+	@$(python) -m stddev
+
+profile: profiling.py stddev.py mathlib.py
 	@echo Profiling with 10 inputs
 	@$(python) -m profiling < $(PROFILING_DIR)/10.txt
 	@echo Profiling with 100 inputs
