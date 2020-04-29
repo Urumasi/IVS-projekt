@@ -6,7 +6,7 @@ Mathlib module is used in our calculator to compute pressed numbers.
 
 # File: mathlib.py
 # Author: OkayChamps, Petr Salaba (xsalab00), FIT BUT
-# Date: 2020-Apr-22
+# Date: 2020-Apr-29
 
 def taylor(fn):
 	"""	Decorator for creating Taylor series, waits until the last 3 terms

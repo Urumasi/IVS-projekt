@@ -2,7 +2,7 @@
 
 # File: setup.py, setup script for the calcchamp package
 # Author: OkayChamps, Marek Filip (xfilip46), FIT BUT
-# Date: 2020-Apr-22
+# Date: 2020-Apr-29
 
 from setuptools import setup, find_packages
 

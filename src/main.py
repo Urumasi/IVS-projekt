@@ -4,14 +4,12 @@
 
 # File: main.py
 # Author: OkayChamps, FIT BUT
-# Date: 2020-Apr-22
-
-__package__ = "calcchamp"
+# Date: 2020-Apr-29
 
 import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication
-from .calculator import CalculatorWindow
+from calculator import CalculatorWindow
 
 
 def main():

@@ -1,6 +1,6 @@
 # File: requirements.txt, python depended packages
 # Author: OkayChamps, BUT FIT
-# Date: 2020-Apr-22
+# Date: 2020-Apr-29
 
 PyQt5==5.14
 sphinx
