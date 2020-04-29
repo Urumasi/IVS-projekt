@@ -253,10 +253,6 @@ class CalculatorWindow(QtWidgets.QMainWindow, Ui_Calculator):
                 if "/" in result[x]:
                     res = round(MathLib.divide(res, number), 9)
 
-            try:
-                res = int(res)
-            except ValueError:
-                res = float(res)
             self.line_result.setText(str(res))
             self.line_subresult.setText(self.line_subresult.text() + " " + "=")
         except ValueError:
