@@ -8,10 +8,11 @@ accordingly. This modules also solves the expression in result text.
 # Author: OkayChamps, Martin Kneslík (xknesl00), Karel Norek (xnorek01) FIT BUT
 # Date: 2020-Apr-22
 
-__package__ = "calcchamp"
-
 from PyQt5 import QtCore, QtGui, QtWidgets
-from .ui_calculator import Ui_Calculator
+from ui_calculator import Ui_Calculator
+from PyQt5.QtWidgets import QApplication
+from random import randint
+from mathlib import MathLib
 
 class CalculatorWindow(QtWidgets.QMainWindow, Ui_Calculator):
     key_pressed = QtCore.pyqtSignal(QtCore.QEvent)
@@ -51,10 +52,12 @@ class CalculatorWindow(QtWidgets.QMainWindow, Ui_Calculator):
         self.connect_buttons(self.factorial_pressed, self.button_factorial)
         self.connect_buttons(self.negation_pressed, self.button_negation)
         self.connect_buttons(self.divide_by_x_pressed, self.button_divide_by_x)
-        self.connect_buttons(self.pow_pressed, self.button_sqr, self.button_pow)
+        self.connect_buttons(self.pow_pressed, self.button_pow)
+        self.connect_buttons(self.sqr_pressed, self.button_sqr)
         self.connect_buttons(self.exp_pressed, self.button_exp)
-        self.connect_buttons(self.root_pressed, self.button_sqrt, self.button_root)
-        # random
+        self.connect_buttons(self.root_pressed, self.button_root)
+        self.connect_buttons(self.sqrt_pressed, self.button_sqrt)
+        #random
         self.connect_buttons(self.random_pressed, self.button_random)
         # clear buttons
         self.connect_buttons(self.clear_result, self.button_ce)
@@ -166,9 +169,9 @@ class CalculatorWindow(QtWidgets.QMainWindow, Ui_Calculator):
         Returns:
             bool: True if result set, false otherwise.
         """
-        return ("=" in self.line_subresult.text())
+        return "=" in self.line_subresult.text()
 
-    def is_result_zero(self):
+    def is_number_zero(self):
         """Checks if result text is zero, (0 = unset).
 
         Returns:
@@ -187,8 +190,8 @@ class CalculatorWindow(QtWidgets.QMainWindow, Ui_Calculator):
 
     def clear_all(self):
         """Clears both result and subresult."""
-        self.clear_result()
-        self.clear_subresult()
+        self.line_result.setText("0")
+        self.line_subresult.setText("")
 
     def clear_last(self):
         """Deletes last number in result text."""
@@ -199,70 +202,204 @@ class CalculatorWindow(QtWidgets.QMainWindow, Ui_Calculator):
             if not self.line_result.text():
                 self.line_result.setText("0")
 
+    def set_result(self, result):
+        self.line_subresult.setText(self.line_subresult.text() + " " + "=")
+        self.line_result.setText(str(result))
+
+    #digits
     def digit_pressed(self):
-        """Called when digit is pressed. Sets the text adequately."""
-        button = self.sender()
-        if self.is_result_set():
-            self.clear_all()
-        if self.is_result_zero():
-            self.line_result.setText("")
-        self.line_result.setText(self.line_result.text() + button.text())
+        if len(self.line_result.text()) < 15:
+            button = self.sender()
+            if self.is_result_set():
+                self.clear_all()
+            if self.is_number_zero():
+                self.line_result.setText("")
+            self.line_result.setText(self.line_result.text() + button.text())
 
     def decimal_pressed(self):
         """Called when decimal point is pressed."""
         button = self.sender()
         if self.is_result_set():
             self.clear_all()
-        if button.text() not in self.line_result.text():
-            self.line_result.setText(self.line_result.text() + button.text())
+        if "." not in self.line_result.text():
+            self.line_result.setText(self.line_result.text() + ".")
 
+    def calculate_result(self):
+        try:
+            result = self.line_subresult.text()
+            string = str(result)
+            result = string.split()
+            try:
+                res = int(result[0])
+            except ValueError:
+                res = float(result[0])
+            for x in range(1, len(result), 2):
+                number = result[x + 1]
+                try:
+                    number = int(number)
+                except ValueError:
+                    number = float(number)
+                if "+" in result[x]:
+                    res = round(MathLib.add(res, number), 9)
+                if "-" in result[x]:
+                    res = round(MathLib.subtract(res, number), 9)
+                if "*" in result[x]:
+                    res = round(MathLib.multiply(res, number), 9)
+                if "/" in result[x]:
+                    res = round(MathLib.divide(res, number), 9)
+
+            try:
+                res = int(res)
+            except ValueError:
+                res = float(res)
+            self.line_result.setText(str(res))
+            self.line_subresult.setText(self.line_subresult.text() + " " + "=")
+        except ValueError:
+            self.line_result.setText("Math Error")
+        except OverflowError:
+            self.line_result.setText("Overflow Error")
+
+    #calculating result
     def result_pressed(self):
         """Sets the result text for pressing result button."""
-        button = self.sender()
-        if not self.is_result_set():
-            self.line_subresult.setText(self.line_subresult.text() + " " + self.line_result.text() + " " + button.text())
+        if "^" in self.line_result.text():
+            try:
+                string = str(self.line_result.text())
+                string = string.split("^")
+                try:
+                    base = int(string[0])
+                except ValueError:
+                    base = float(string[0])
+                exponent = int(string[1])
 
-            # TODO:
-            self.line_result.setText("result")
+                result = round(MathLib.power(base, exponent))
+                self.line_result.setText(str(result))
+
+            except ValueError:
+                self.line_result.setText("Math Error")
+
+        elif "√" in self.line_result.text():
+            try:
+                string = str(self.line_result.text())
+                string = string.split("√")
+                n = int(string[0])
+                base = int(string[1])
+                result = round(MathLib.root(base, n))
+                self.line_result.setText(str(result))
+
+            except ValueError:
+                self.line_result.setText("Math Error")
+
+        if not self.is_result_set():
+            self.line_subresult.setText(self.line_subresult.text() + " " + self.line_result.text())
+            self.calculate_result()
+
 
     def basic_ops_pressed(self):
         r"""Set the result text for basic operations buttons (+, -, \*, /)."""
         button = self.sender()
-        if self.is_result_zero() and self.line_subresult.text():
+        if self.is_number_zero() and self.line_subresult.text():
             self.line_subresult.setText(self.line_subresult.text()[:-1] + button.text())
         else:
             self.line_subresult.setText(self.line_subresult.text() + " " + self.line_result.text() + " " + button.text())
             self.line_result.setText("0")
 
     def advanced_ops_pressed(self):
-        """Set the result text for advanced operations (ln, log, sin, cos, tan)."""
-        button = self.sender()
-        self.line_result.setText(button.text() + "(" + self.line_result.text() + ")")
+        try:
+            button = (self.sender())
+            number = float(self.line_result.text())
+            if "ln" in str(button.text()):
+                result = round(MathLib.natural_log(number), 9)
+                self.line_result.setText(str(result))
+            elif "log" in str(button.text()):
+                result = round(MathLib.log(number), 9)
+                self.line_result.setText(str(result))
+            elif "sin" in str(button.text()):
+                result = round(MathLib.sin(number), 9)
+                self.line_result.setText(str(result))
+            elif "cos" in str(button.text()):
+                result = round(MathLib.cos(number), 9)
+                self.line_result.setText(str(result))
+            elif "tan" in str(button.text()):
+                result = round(MathLib.tan(number), 9)
+                self.line_result.setText(str(result))
+            elif "cot" in str(button.text()):
+                result = round(MathLib.cot(number), 9)
+                self.line_result.setText(str(result))
+        except ValueError:
+            self.line_result.setText("Math Error")
+        except OverflowError:
+            self.line_result.setText("Overflow Error")
 
     def factorial_pressed(self):
-        """Set the result text for factorial function."""
-        print("TODO")
+        try:
+            number = int(self.line_result.text())
+            result = MathLib._fact(number)
+            self.line_result.setText(str(result))
+        except ValueError:
+            self.line_result.setText("Math Error")
 
     def negation_pressed(self):
-        """Set the result text for negation button."""
-        print("TODO")
+        string = self.line_result.text()
+        try:
+            number = int(string)
+        except ValueError:
+            number = float(string)
+        number = number * -1
+        string = str(number)
+        self.line_result.setText(string)
 
     def divide_by_x_pressed(self):
-        """Set the result text for division by x button."""
-        print("TODO")
+        try:
+            number = float(self.line_result.text())
+            result = round(MathLib.divide(1, number), 9)
+            self.line_result.setText(str(result))
+        except ValueError:
+            self.line_result.setText("Math Error")
+        except OverflowError:
+            self.line_result.setText("Overflow Error")
+
+    def sqr_pressed(self):
+        try:
+            number = float(self.line_result.text())
+            result = round(MathLib.power(number, 2), 9)
+            self.line_result.setText(str(result))
+        except ValueError:
+            self.line_result.setText("Math Error")
 
     def pow_pressed(self):
-        """Set the result text for power button."""
-        print("TODO")
+        self.line_result.setText(self.line_result.text() + "^")
 
     def exp_pressed(self):
-        """Set the result text for exponent button."""
-        print("TODO")
+        try:
+            try:
+                number = int(self.line_result.text())
+            except ValueError:
+                number = float(self.line_result.text())
+            result = round(MathLib.exp(number), 9)
+            self.line_result.setText(str(result))
+        except ValueError:
+            self.line_result.setText("Math Error")
+        except OverflowError:
+            self.line_result.setText("Overflow Error")
+    def sqrt_pressed(self):
+        try:
+            try:
+                number = int(self.line_result.text())
+            except ValueError:
+                number = float(self.line_result.text())
+            result = round(MathLib.root(number, 2), 9)
+            self.line_result.setText(str(result))
+        except ValueError:
+            self.line_result.setText("Math Error")
+        except OverflowError:
+            self.line_result.setText("Overflow Error")
 
     def root_pressed(self):
-        """Set the result text for root button."""
-        print("TODO")
+        self.line_result.setText(self.line_result.text() + "√")
 
+    #random number
     def random_pressed(self):
-        """Set the result text for getting random number between 0-1000."""
-        print("TODO")
+        button = randint(0, 1000)
+        string = str(button)
+        self.line_result.setText(string)
