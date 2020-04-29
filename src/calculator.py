@@ -14,8 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from .ui_calculator import Ui_Calculator
 from PyQt5.QtWidgets import QApplication
 from random import randint
-__package__ = 'calcchamp'
-from .mathlib import MathLib
+from src.mathlib import MathLib
 
 class CalculatorWindow(QtWidgets.QMainWindow, Ui_Calculator):
     key_pressed = QtCore.pyqtSignal(QtCore.QEvent)
@@ -227,40 +226,46 @@ class CalculatorWindow(QtWidgets.QMainWindow, Ui_Calculator):
         if button.text() not in self.line_result.text():
             self.line_result.setText(self.line_result.text() + ".")
 
+    def calculate_result(self):
+        try:
+            result = self.line_subresult.text()
+            string = str(result)
+            result = string.split()
+            res = float(result[0])
+            for x in range(1, len(result), 2):
+                number = result[x + 1]
+                number = float(number)
+                if "+" in result[x]:
+                    res = MathLib.add(res, number)
+                if "-" in result[x]:
+                    res = MathLib.subtract(res, number)
+                if "*" in result[x]:
+                    res = MathLib.multiply(res, number)
+                if "/" in result[x]:
+                    res = MathLib.divide(res, number)
+                if "^" in result[x]:
+                    number = int(number)
+                    res = MathLib.power(res, number)
+                if "√" in result[x]:
+                    number = int(number)
+                    res = int(res)
+                    res = MathLib.root(number, res)
+
+            self.line_result.setText(str(res))
+            self.line_subresult.setText(self.line_subresult.text() + " " + "=")
+        except ValueError:
+            self.line_result.setText("Math Error")
+        except OverflowError:
+            self.line_result.setText("Overflow Error")
+
+    #calculating result
     def result_pressed(self):
         """Sets the result text for pressing result button."""
         button = self.sender()
         if not self.is_result_set():
             self.line_subresult.setText(self.line_subresult.text() + " " + self.line_result.text())
-            try:
-                if "+" in self.line_subresult.text():
-                    string = self.line_subresult.text().split(" + ")
-                    result = MathLib.add(float(string[0]), float(string[1]))
-                    self.set_result(result)
-                elif "-" in self.line_subresult.text():
-                    string = self.line_subresult.text().split(" - ")
-                    result = MathLib.subtract(float(string[0]), float(string[1]))
-                    self.set_result(result)
-                elif "/" in self.line_subresult.text():
-                    string = self.line_subresult.text().split(" / ")
-                    result = MathLib.divide(float(string[0]), float(string[1]))
-                    self.set_result(result)
-                elif "*" in self.line_subresult.text():
-                    string = self.line_subresult.text().split(" * ")
-                    result = MathLib.multiply(float(string[0]), float(string[1]))
-                    self.set_result(result)
-                elif "^" in self.line_subresult.text():
-                    string = self.line_subresult.text().split(" ^ ")
-                    result = MathLib.power(float(string[0]), int(string[1]))
-                    self.set_result(result)
-                elif "√" in self.line_subresult.text():
-                    string = self.line_subresult.text().split(" √ ")
-                    result = MathLib.root(int(string[1]), int(string[0]))
-                    self.set_result(result)
-            except ValueError:
-                self.line_result.setText("Math Error")
-            except OverflowError:
-                self.line_result.setText("Overflow Error")
+            self.calculate_result()
+
 
     def basic_ops_pressed(self):
         r"""Set the result text for basic operations buttons (+, -, \*, /)."""
@@ -273,7 +278,7 @@ class CalculatorWindow(QtWidgets.QMainWindow, Ui_Calculator):
 
     def advanced_ops_pressed(self):
         button = (self.sender())
-        self.line_subresult.setText(button.text() + "(" + self.line_result.text() + ")" + " " + "=")
+        self.line_subresult.setText(self.line_subresult.text() + " " + button.text() + "(" + self.line_result.text() + ")" + " " + "=")
         number = float(self.line_result.text())
         try:
             if "ln" in str(button.text()):
@@ -297,7 +302,7 @@ class CalculatorWindow(QtWidgets.QMainWindow, Ui_Calculator):
             self.line_result.setText("Overflow Error")
 
     def factorial_pressed(self):
-        self.line_subresult.setText(self.line_result.text() + "!" + " " + "=")
+        self.line_subresult.setText(self.line_subresult.text() + " " + self.line_result.text() + "!" + " " + "=")
         try:
             number = int(self.line_result.text())
             result = MathLib._fact(number)
@@ -317,7 +322,7 @@ class CalculatorWindow(QtWidgets.QMainWindow, Ui_Calculator):
         self.line_result.setText(string)
 
     def divide_by_x_pressed(self):
-        self.line_subresult.setText("1" + "/" + self.line_result.text() + " " + "=")
+        self.line_subresult.setText(self.line_subresult.text() + " " + "1" + "/" + self.line_result.text() + " " + "=")
         number = float(self.line_result.text())
         try:
             result = MathLib.divide(1, number)
