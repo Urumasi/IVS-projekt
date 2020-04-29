@@ -23,6 +23,8 @@ INSTALLER_DIR  = ../installer
 INSTALLER_DEB  = calcchamp.deb
 DEV_PACKAGES   = devscripts debhelper python3-all python3-setuptools dh-python
 
+PROFILING_DIR  = ../profiling
+
 .phony: all run test doc profile pack clean help installer install uninstall
 
 
@@ -40,8 +42,13 @@ doc:
 builddoc:
 	$(DOCGEN) $(DOCFLAGS) $(DOC_FORMAT) $(SOURCE_DOC_DIR) $(OUTPUT_DOC_DIR)
 
-profile:
-	# TODO: profiling
+profile: profiling.py mathlib.py
+	@echo Profiling with 10 inputs
+	@$(python) -m profiling < $(PROFILING_DIR)/10.txt
+	@echo Profiling with 100 inputs
+	@$(python) -m profiling < $(PROFILING_DIR)/100.txt
+	@echo Profiling with 1000 inputs
+	@$(python) -m profiling < $(PROFILING_DIR)/1000.txt
 
 reqs:
 	pip3 install -r requirements.txt
