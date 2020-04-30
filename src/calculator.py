@@ -344,14 +344,17 @@ class CalculatorWindow(QtWidgets.QMainWindow, Ui_Calculator):
 
     def negation_pressed(self):
         """Set the result text for negation."""
-        string = self.line_result.text()
         try:
-            number = int(string)
+            string = self.line_result.text()
+            try:
+                number = int(string)
+            except ValueError:
+                number = float(string)
+            number = number * -1
+            string = str(number)
+            self.line_result.setText(string)
         except ValueError:
-            number = float(string)
-        number = number * -1
-        string = str(number)
-        self.line_result.setText(string)
+            self.line_result.setText("Math Error")
 
     def divide_by_x_pressed(self):
         """Set the result text for division by x."""
