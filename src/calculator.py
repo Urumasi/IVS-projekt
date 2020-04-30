@@ -253,10 +253,6 @@ class CalculatorWindow(QtWidgets.QMainWindow, Ui_Calculator):
                 if "/" in result[x]:
                     res = round(MathLib.divide(res, number), 9)
 
-            try:
-                res = int(res)
-            except ValueError:
-                res = float(res)
             self.line_result.setText(str(res))
             self.line_subresult.setText(self.line_subresult.text() + " " + "=")
         except ValueError:
@@ -348,14 +344,17 @@ class CalculatorWindow(QtWidgets.QMainWindow, Ui_Calculator):
 
     def negation_pressed(self):
         """Set the result text for negation."""
-        string = self.line_result.text()
         try:
-            number = int(string)
+            string = self.line_result.text()
+            try:
+                number = int(string)
+            except ValueError:
+                number = float(string)
+            number = number * -1
+            string = str(number)
+            self.line_result.setText(string)
         except ValueError:
-            number = float(string)
-        number = number * -1
-        string = str(number)
-        self.line_result.setText(string)
+            self.line_result.setText("Math Error")
 
     def divide_by_x_pressed(self):
         """Set the result text for division by x."""
