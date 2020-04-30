@@ -4,6 +4,7 @@ Uses taylor decorator for functions that need Taylor series.
 Mathlib module is used in our calculator to compute pressed numbers.
 """
 
+
 # File: mathlib.py
 # Author: OkayChamps, Petr Salaba (xsalab00), FIT BUT
 # Date: 2020-Apr-29
@@ -38,7 +39,7 @@ def taylor(fn):
 			while len(last_3) > 3:
 				last_3.pop(0)
 
-			if len(last_3) == 3 and all(map(lambda x: x < MathLib.EPS, last_3)):
+			if len(last_3) == 3 and all(map(lambda x: abs(x) < MathLib.EPS, last_3)):
 				return result
 		return result
 
@@ -92,10 +93,11 @@ class MathLib:
 	E = 2.718281828459045
 	LN10 = 2.302585092994046
 
+	BIG = int(1e9)
 	PRECISION = 12
 	EPS = 0.1 ** PRECISION
 
-	MAX_ITERATIONS = 256
+	MAX_ITERATIONS = 1024
 
 	@staticmethod
 	def factorial(n):
@@ -308,13 +310,11 @@ class MathLib:
 		return MathLib.divide(MathLib.power(x, i), MathLib.factorial(i))
 
 	@staticmethod
-	@taylor
-	def natural_log(x, i):
+	def natural_log(x):
 		"""Take the natural logarithm of a number.
 
 		Args:
 			x (float): Input number.
-			i (int): Index of a member in the Taylor's series. TODO: remove?
 
 		Raises:
 			ValueError: Input number is less than zero.
@@ -324,7 +324,7 @@ class MathLib:
 		"""
 		if x <= 0:
 			raise ValueError
-		return 2 * MathLib.power((x - 1) / (x + 1), 2 * i + 1) / (2 * i + 1)
+		return MathLib.BIG*MathLib.root(x, MathLib.BIG) - MathLib.BIG
 
 	@staticmethod
 	def log(x):
