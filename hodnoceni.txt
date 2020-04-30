@@ -1,4 +1,4 @@
-xfilip46 100 ()
-xknesl02 100 ()
-xnorek01 100 ()
-xsalab00 100 ()
+xfilip46 120 (makefile, instalator, programova dokumentace)
+xknesl02 100 (design, gui, mockups, manual)
+xnorek01 90 (testy, fungovani kalkulacky)
+xsalab00 90 (matematicka knihovna, profiling)

@@ -1,1 +1,13 @@
-tento soubor bude obsahovat rozdil mezi planem projektu a skutecnosti
+Z původního plánu se nám, co se týká implementace funkčních prvků, nepovedlo
+implementovat syntaktickou a lexikální analýzu pro precedenci operátorů.
+Rozhodli jsme se, že nám to za to úsilí nestojí.
+
+Časový plán se nám ze začátku dařilo držet dobře, avšak s přibývajícími
+projekty a prodlouženým se deadlinem nadšení ustávalo a tak jsme
+několik věcí dokončovali až na poslední chvíli.
+
+Na členech týmu šli také vidět projevy koronavirové prokrastinace.
+
+Mockup jsme plánovali všichni, jak jsme se domluvili. A na hodnoceni jsme
+se také shodli všichni, takže stanovené podmínky pro práci v týmu
+jsme dodrželi, jak bylo naplánované.
