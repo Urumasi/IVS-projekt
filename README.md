@@ -7,7 +7,7 @@ Windows 64bit
 Autori
 ------
 
-Nazev tymu
+OkayChamps
 - xfilip46 Marek Filip 
 - xknesl02 Martin Kneslík 
 - xnorek01 Karel Norek
