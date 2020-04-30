@@ -69,6 +69,9 @@ installer: debinstall cleaninstallsource
 movescripts: main.py __init__.py mathlib.py calculator.py ui_calculator.py img
 	mkdir -p $(INSTALLER_DIR)/source/calcchamp
 	cp -r $^ $(INSTALLER_DIR)/source/calcchamp
+	sed -i 's/from calculator/from \.calculator/' $(INSTALLER_DIR)/source/calcchamp/main.py
+	sed -i 's/from ui_calculator/from \.ui_calculator/' $(INSTALLER_DIR)/source/calcchamp/calculator.py
+	sed -i 's/from mathlib/from \.mathlib/' $(INSTALLER_DIR)/source/calcchamp/calculator.py
 # creates the installer
 debinstall: movescripts
 	rm -rf $(INSTALLER_DIR)/!(source)
