@@ -16,10 +16,10 @@ def calculate_standard_deviation(values):
 	"""Calculates standard deviation.
 
 	Args:
-		values (list): Data set to use in the calculation
+		values (list): Data set to use in the calculation.
 
 	Returns:
-		float: Standard deviation of the data set
+		float: Standard deviation of the data set.
 	"""
 	n = len(values)
 	s = MathLib.root(
@@ -31,10 +31,10 @@ def calculate_standard_deviation(values):
 
 
 def read_and_calculate():
-	"""Reads values from stdin and calculates standard deviation
+	"""Reads values from stdin and calculates standard deviation.
 
 	Returns:
-		float: Standard deviation of the data set read through stdin
+		float: Standard deviation of the data set read through stdin.
 	"""
 	numbers = list()
 	for line in stdin:
